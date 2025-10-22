@@ -293,19 +293,6 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
   return (
     <>
       <Row style={{ width: '100%' }}>
-        <Col xs={12}>
-          <Stepper
-            className={classes.stepperComponent}
-            activeStep={activeStep}
-            alternativeLabel
-            style={{ background: 'transparent' }}
-            connector={<ColorlibConnector />}
-          >
-            {steps.map((label, idx) => (
-              <Step key={label}>{renderStepLabelContent(label, idx)}</Step>
-            ))}
-          </Stepper>
-        </Col>
         <Col className={classes.stepContent} xs={12}>
           {renderIntermediateOrSuccessStepContent()}
         </Col>
