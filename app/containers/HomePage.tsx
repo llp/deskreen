@@ -40,9 +40,25 @@ export default function HomePage() {
       autoDismissTimeout={5000}
       components={{ Toast: CustomToastWithTheme }}
     >
-      <div className={Classes.TREE}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100vh',
+          backgroundColor: '#f5f8fa'
+        }}
+      >
         <TopPanel stepperRef={stepperRef} />
-        <DeskreenStepper ref={stepperRef} />
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <DeskreenStepper ref={stepperRef} />
+        </div>
         {/* <Home /> */}
       </div>
     </ToastProvider>
