@@ -119,42 +119,9 @@ export default function TopPanel(props: any) {
     );
   }, [getClassesCallback, handleSettingsOpen, t]);
 
-  const renderLogoWithAppName = useCallback(() => {
-    return (
-      <div
-        id="logo-with-popover-visit-website"
-        className={getClassesCallback().logoWithAppName}
-      >
-        <Button
-          minimal
-          style={{
-            borderRadius: '100px',
-          }}
-        >
-          <h4
-            id="deskreen-top-app-name-header"
-            className={getClassesCallback().appNameHeader}
-            style={{
-              transform: 'translateY(-3px)',
-            }}
-          >
-            Deskreen
-          </h4>
-        </Button>
-      </div>
-    );
-  }, [getClassesCallback]);
-
   return (
     <>
       <div className={getClassesCallback().topPanelRoot}>
-        <Row
-          middle="xs"
-          center="xs"
-          style={{ width: '100%', transform: 'translateX(-50px)' }}
-        >
-          <Col>{renderLogoWithAppName()}</Col>
-        </Row>
         <div className={getClassesCallback().topPanelControlButtonsRoot}>
           {renderConnectedDevicesListButton()}
           {renderSettingsButton()}
