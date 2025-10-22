@@ -70,7 +70,6 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
 
   const { addToast } = useToasts();
 
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isUserAllowedConnection, setIsUserAllowedConnection] = useState(false);
   const [isNoWiFiError, setisNoWiFiError] = useState(false);
   const [isSelectLanguageDialogOpen, setIsSelectLanguageDialogOpen] = useState(
@@ -103,7 +102,9 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
     ipcRenderer.invoke(IpcEvents.CreateWaitingForConnectionSharingSession);
     ipcRenderer.on(IpcEvents.SetPendingConnectionDevice, (_, device) => {
       setPendingConnectionDevice(device);
-      setIsAlertOpen(true);
+      //
+      handleConfirmAlert().then(r => {
+      });
     });
   }, []);
 
@@ -186,41 +187,12 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
     },
   }));
 
-  const handleCancelAlert = async () => {
-    setIsAlertOpen(false);
-    setActiveStep(0);
-    setPendingConnectionDevice(null);
-    setIsUserAllowedConnection(false);
-
-    ipcRenderer.invoke(IpcEvents.ResetWaitingForConnectionSharingSession);
-    ipcRenderer.invoke(IpcEvents.CreateWaitingForConnectionSharingSession);
-  };
-
   const handleConfirmAlert = useCallback(async () => {
-    setIsAlertOpen(false);
     setIsUserAllowedConnection(true);
     handleNext();
 
     ipcRenderer.invoke(IpcEvents.SetDeviceConnectedStatus);
   }, [handleNext]);
-
-  const handleUserClickedDeviceDisconnectButton = useCallback(async () => {
-    handleResetWithSharingSessionRestart();
-
-    addToast(
-      <Text>
-        {t(
-          'Device is successfully disconnected by you You can connect a new device'
-        )}
-      </Text>,
-      {
-        appearance: 'info',
-        autoDismiss: true,
-        // @ts-ignore: works fine here
-        isdarktheme: `${isDarkTheme}`,
-      }
-    );
-  }, [addToast, handleResetWithSharingSessionRestart, isDarkTheme, t]);
 
   const renderIntermediateOrSuccessStepContent = useCallback(() => {
     return activeStep === steps.length ? (
@@ -255,41 +227,6 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
     pendingConnectionDevice,
   ]);
 
-  const renderStepLabelContent = useCallback(
-    (label, idx) => {
-      return (
-        <StepLabel
-          id="step-label-deskreen"
-          className={classes.stepLabelContent}
-          StepIconComponent={ColorlibStepIcon}
-          StepIconProps={
-            {
-              isEntireScreenSelected,
-              isApplicationWindowSelected,
-            } as StepIconPropsDeskreen
-          }
-        >
-          {pendingConnectionDevice && idx === 0 && isUserAllowedConnection ? (
-            <DeviceConnectedInfoButton
-              device={pendingConnectionDevice}
-              onDisconnect={handleUserClickedDeviceDisconnectButton}
-            />
-          ) : (
-            <Text className="bp3-text-muted">{label}</Text>
-          )}
-        </StepLabel>
-      );
-    },
-    [
-      classes.stepLabelContent,
-      handleUserClickedDeviceDisconnectButton,
-      isApplicationWindowSelected,
-      isEntireScreenSelected,
-      isUserAllowedConnection,
-      pendingConnectionDevice,
-    ]
-  );
-
   return (
     <>
       <Row style={{ width: '100%' }}>
@@ -297,12 +234,6 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
           {renderIntermediateOrSuccessStepContent()}
         </Col>
       </Row>
-      <AllowConnectionForDeviceAlert
-        device={pendingConnectionDevice}
-        isOpen={isAlertOpen}
-        onCancel={handleCancelAlert}
-        onConfirm={handleConfirmAlert}
-      />
       <Dialog isOpen={isNoWiFiError} autoFocus usePortal>
         <Grid>
           <div style={{ padding: '10px' }}>
