@@ -105,66 +105,6 @@ function PlayerControlPanel(props: PlayerControlPanelProps) {
       <Card elevation={4}>
         <Row between="xs" middle="xs">
           <Col xs={12} md={3}>
-            <Tooltip
-              content={t('Click to visit our website')}
-              position={Position.BOTTOM}
-            >
-              <Button
-                minimal
-                onClick={() => {
-                  window.open('https://www.deskreen.com', '_blank');
-                }}
-              >
-                <Row middle="xs" style={{ opacity: '0.75' }}>
-                  <Col xs={4}>
-                    <img
-                      src={window.location.origin + '/logo192.png'}
-                      width={42}
-                      height={42}
-                      alt="logo"
-                    />
-                  </Col>
-                  <Col xs={8}>
-                    <H5 style={{ marginBottom: '0px' }}>Deskreen</H5>
-                  </Col>
-                </Row>
-              </Button>
-            </Tooltip>
-            <Tooltip
-              content={t(
-                'If you like Deskreen consider contributing financially Deskreen is open-source Your donations keep us motivated to make Deskreen even better'
-              )}
-              position={Position.BOTTOM}
-            >
-              <Button
-                style={{ borderRadius: '100px' }}
-                onClick={() => {
-                  window.open('https://twitter.com/Ukraine/status/1497294840110977024', '_blank');
-                }}
-              >
-                <Row start="xs">
-                  <Col xs>
-                    <img
-                      src={RedHeartTwemojiPNG}
-                      width={16}
-                      height={16}
-                      style={{ transform: 'translateY(2px)' }}
-                      alt="heart"
-                    />
-                  </Col>
-                  <Col xs>
-                    <div
-                      style={{
-                        transform: 'translateY(2px) translateX(-5px)',
-                        width: 'max-content',
-                      }}
-                    >
-                      <Text>{t('Donate')}</Text>
-                    </div>
-                  </Col>
-                </Row>
-              </Button>
-            </Tooltip>
           </Col>
           <Col xs={12} md={5}>
             <Row center="xs" style={{ height: '42px' }}>
