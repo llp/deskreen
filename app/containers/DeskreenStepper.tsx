@@ -100,12 +100,24 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
 
   useEffect(() => {
     ipcRenderer.invoke(IpcEvents.CreateWaitingForConnectionSharingSession);
-    ipcRenderer.on(IpcEvents.SetPendingConnectionDevice, (_, device) => {
+    const handlePendingConnection = async (_event: any, device: any) => {
       setPendingConnectionDevice(device);
-      //
-      handleConfirmAlert().then(r => {
-      });
-    });
+
+      await handleConfirmAlert();
+
+      const ids = await ipcRenderer.invoke(
+        IpcEvents.GetDesktopSharingSourceIds,
+        { isEntireScreenToShareChosen: true }
+      );
+      await ipcRenderer.invoke(IpcEvents.SetDesktopCapturerSourceId, ids[0]);
+
+      setTimeout(async ()=>{
+        await ipcRenderer.invoke(
+          IpcEvents.StartSharingOnWaitingForConnectionSharingSession
+        );
+      }, 2000)
+    };
+    ipcRenderer.on(IpcEvents.SetPendingConnectionDevice, handlePendingConnection);
   }, []);
 
   useEffect(() => {
@@ -188,8 +200,8 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
   }));
 
   const handleConfirmAlert = useCallback(async () => {
-    setIsUserAllowedConnection(true);
-    handleNext();
+    // setIsUserAllowedConnection(true);
+    // handleNext();
 
     ipcRenderer.invoke(IpcEvents.SetDeviceConnectedStatus);
   }, [handleNext]);

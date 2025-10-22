@@ -93,9 +93,9 @@ export default class PeerConnection {
     this.desktopCapturerSourceID = id;
     if (process.env.RUN_MODE === 'test') return;
 
-    this.setDisplayIDByDesktopCapturerSourceID();
+    await this.setDisplayIDByDesktopCapturerSourceID();
 
-    this.handleCreatePeerAfterDesktopCapturerSourceIDWasSet();
+    await this.handleCreatePeerAfterDesktopCapturerSourceIDWasSet();
   }
 
   async setDisplayIDByDesktopCapturerSourceID() {
