@@ -225,6 +225,7 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
           resetPendingConnectionDevice={() => setPendingConnectionDevice(null)}
           resetUserAllowedConnection={() => setIsUserAllowedConnection(false)}
           connectedDevice={pendingConnectionDevice}
+          handleReset={handleReset}
         />
       </div>
     );

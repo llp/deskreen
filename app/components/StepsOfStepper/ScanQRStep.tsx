@@ -23,6 +23,10 @@ const { port } = config;
 // TODO: change port to user defined port, if it is really defined
 const CLIENT_VIEWER_PORT = isProduction() ? port : '3000';
 
+interface ScanQRStepProps {
+  handleReset: () => void;
+}
+
 const useStyles = makeStyles(() =>
   createStyles({
     smallQRCode: {
@@ -50,7 +54,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const ScanQRStep: React.FC = () => {
+const ScanQRStep: React.FC<ScanQRStepProps> = (props: ScanQRStepProps) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const { isDarkTheme } = useContext(SettingsContext);
@@ -133,6 +137,15 @@ const ScanQRStep: React.FC = () => {
           )}:`}
         </Text>
       </div>
+
+      <Button
+        intent="primary"
+        onClick={props.handleReset}
+        icon='repeat'
+        style={{ borderRadius: '100px', marginBottom: '20px' }}
+      >
+        {t('Connect New Device')}
+      </Button>
 
       <Tooltip content={t('Click to copy')} position={Position.LEFT}>
         <Button

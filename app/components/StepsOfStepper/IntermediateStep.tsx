@@ -26,11 +26,12 @@ function getStepContent(
   stepIndex: number,
   handleNextEntireScreen: () => void,
   handleNextApplicationWindow: () => void,
-  connectedDevice: Device | null
+  connectedDevice: Device | null,
+  handleReset: () => void
 ) {
   switch (stepIndex) {
     case 0:
-      return <ScanQRStep />;
+      return <ScanQRStep handleReset={handleReset} />;
     case 1:
       return (
         <>
@@ -71,6 +72,7 @@ export default function IntermediateStep(props: IntermediateStepProps) {
     resetPendingConnectionDevice,
     resetUserAllowedConnection,
     connectedDevice,
+    handleReset,
   } = props;
 
   return (
@@ -90,7 +92,8 @@ export default function IntermediateStep(props: IntermediateStepProps) {
         activeStep,
         handleNextEntireScreen,
         handleNextApplicationWindow,
-        connectedDevice
+        connectedDevice,
+        handleReset
       )}
       {
         // eslint-disable-next-line no-nested-ternary
